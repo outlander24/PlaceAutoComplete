@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'place-autocomplete'
+
+    publishedGroupId = 'com.outlander.placeautocomplete'
+    libraryName = 'PlaceAutoComplete'
+    artifact = 'PlaceAutoComplete'
+
+    libraryDescription = 'Use this to add place Autocomplete functionality to your application. For example : searching places, entering destination, etc.'
+
+    siteUrl = 'https://github.com/OuTlAnDeR24/PlaceAutoComplete'
+    gitUrl = 'https://github.com/OuTlAnDeR24/PlaceAutoComplete.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'outlander'
+    developerName = 'Ashish Totla'
+    developerEmail = 'ashishtotla956@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -30,3 +54,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
