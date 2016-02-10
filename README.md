@@ -75,6 +75,21 @@ Add this to your project to add place autocomplete functionality for example : s
       </code>
     </pre>
   </li>
+  <li>
+    <p>Lastly, add the following code to your app's build.gradle under the android section</p>
+    <pre>
+      <code>    
+        android {
+          ...
+          useLibrary 'org.apache.http.legacy'
+          dataBinding {
+            enabled = true
+          }
+          ..
+        }
+      </code>
+    </pre>
+  </li>
 </ol>
 
 <p>Ready to go!</p>
