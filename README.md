@@ -104,4 +104,4 @@ Add this to your project to add place autocomplete functionality for example : s
 <h3> 
 Credits
 </h3>
-<p>Google PlaceAutoCompleteFragment</p>
+<p>Google Geocode API</p>
