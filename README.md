@@ -10,7 +10,7 @@ Add this to your project to add place autocomplete functionality for example : s
     <pre>
       <code>
         dependencies {
-          compile 'com.outlander.placeautocomplete:PlaceAutoComplete:1.0.0'
+          compile 'com.outlander.placeautocomplete:PlaceAutoComplete:1.0.1'
         }
       </code>
     </pre>
@@ -39,8 +39,10 @@ Add this to your project to add place autocomplete functionality for example : s
             }
 
             @Override
-            public void onErrorOccurred() {
-              //TODO: Alert user
+            public void onErrorOccurred(int erroCode) {
+              //TODO: Alert user based on the errorcode
+              // 0 - Network Issue
+              // 1 - Zero results
             }
         });
       </code>
