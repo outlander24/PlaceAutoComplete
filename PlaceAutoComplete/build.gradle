@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/OuTlAnDeR24/PlaceAutoComplete'
     gitUrl = 'https://github.com/OuTlAnDeR24/PlaceAutoComplete.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'outlander'
     developerName = 'Ashish Totla'
@@ -38,7 +38,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
     }
     buildTypes {
         release {

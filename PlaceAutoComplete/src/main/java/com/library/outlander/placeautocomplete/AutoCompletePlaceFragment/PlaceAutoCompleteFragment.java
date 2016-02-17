@@ -1,7 +1,9 @@
 package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -97,6 +99,12 @@ public class PlaceAutoCompleteFragment extends Fragment{
 
         mContainer = (LinearLayout) view.findViewById(R.id.container);
         mBlackOutView = view.findViewById(R.id.blackout_view);
+        mBlackOutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeFragment();
+            }
+        });
 
         mSearchBox = (EditText) view.findViewById(R.id.search_box);
         addTextWatcherOnSearchBox();
@@ -125,7 +133,6 @@ public class PlaceAutoCompleteFragment extends Fragment{
             mContainer.startAnimation(slideAnimation);
             mBlackOutView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
             mSearchIcon.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bounce_vertically));
-
         }
 
         return view;
@@ -147,34 +154,37 @@ public class PlaceAutoCompleteFragment extends Fragment{
                     mSearchBox.setText(placeData.name);
                     mPlaceDataList.clear();
                     updateRecyclerViewHeightBasedOnNumberOfAddresses();
-                    if (mShowAnimation) {
-                        Animation slideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_top);
-                        mContainer.startAnimation(slideAnimation);
-                        mBlackOutView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_out));
-                        slideAnimation.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                hideKeyBoardAndGoBack();
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-                    } else {
-                        hideKeyBoardAndGoBack();
-
-                    }
-
+                    removeFragment();
                 }
             }
         };
+    }
+
+    private void removeFragment() {
+        if (mShowAnimation) {
+            Animation slideAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_top);
+            mContainer.startAnimation(slideAnimation);
+            mBlackOutView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_out));
+            slideAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    hideKeyBoardAndGoBack();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        } else {
+            hideKeyBoardAndGoBack();
+
+        }
     }
 
     private void hideKeyBoardAndGoBack() {
@@ -188,7 +198,7 @@ public class PlaceAutoCompleteFragment extends Fragment{
     public void showSoftKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
         view.requestFocus();
-        inputMethodManager.showSoftInput(view, 0);
+        inputMethodManager.toggleSoftInput(0, 0);
     }
 
     private void setAdapter() {
@@ -243,7 +253,7 @@ public class PlaceAutoCompleteFragment extends Fragment{
                 if (query.trim().length() > 0 && !mStopListeningToTextChanges) {
                     mBtnClearSearch.setVisibility(View.VISIBLE);
                     query = query.replace(' ', '+');
-                    new FindPlace().execute(query);
+                    startMyTask(new FindPlace(), query);
                 } else {
                     mBtnClearSearch.setVisibility(View.GONE);
                 }
@@ -263,34 +273,40 @@ public class PlaceAutoCompleteFragment extends Fragment{
 
     private void parseResultsJson(JSONObject resultsJsonObject) {
         if (resultsJsonObject != null) {
-            mPlaceDataList.clear();
             try {
+                if (resultsJsonObject.getString(Constants.STATUS).equalsIgnoreCase(Constants.OK)) {
+                    mPlaceDataList.clear();
 
-                JSONArray resultsArray = resultsJsonObject.getJSONArray("results");
-                for (int i = 0; i < resultsArray.length(); i++) {
+                    JSONArray resultsArray = resultsJsonObject.getJSONArray(Constants.RESULTS);
+                    for (int i = 0; i < resultsArray.length(); i++) {
 
-                    JSONObject addressObject = resultsArray.getJSONObject(i);
-                    JSONArray addressComponents = addressObject.getJSONArray("address_components");
-                    PlaceData placeData = new PlaceData();
-                    placeData.name = addressComponents.getJSONObject(0).getString("long_name");
-                    placeData.formattedAddress = addressObject.getString("formatted_address");
-                    placeData.placeId = addressObject.getString("place_id");
-                    placeData.latitude = addressObject.getJSONObject("geometry").
-                            getJSONObject("location").getDouble("lat");
-                    placeData.longitude = addressObject.getJSONObject("geometry").getJSONObject("location")
-                            .getDouble("lng");
+                        JSONObject addressObject = resultsArray.getJSONObject(i);
+                        JSONArray addressComponents = addressObject.getJSONArray(Constants.ADDRESS_COMPONENTS);
+                        PlaceData placeData = new PlaceData();
+                        placeData.name = addressComponents.getJSONObject(0).getString(Constants.LONG_NAME);
+                        placeData.formattedAddress = addressObject.getString(Constants.FORMATTED_ADDRESS);
+                        placeData.placeId = addressObject.getString(Constants.PLACE_ID);
+                        placeData.latitude = addressObject.getJSONObject(Constants.GEOMETRY).
+                                getJSONObject(Constants.LOCATION).getDouble(Constants.LAT);
+                        placeData.longitude = addressObject.getJSONObject(Constants.GEOMETRY).getJSONObject(Constants.LOCATION)
+                                .getDouble(Constants.LONG);
 
-                    mPlaceDataList.add(placeData);
+                        mPlaceDataList.add(placeData);
+                    }
+
+                    updateSearchResults(mPlaceDataList);
+                } else if (resultsJsonObject.getString(Constants.STATUS).equalsIgnoreCase(Constants.ZERO_RESULTS)) {
+                    mOnPlaceSelectedListener.onErrorOccurred(ErrorCodes.ZERO_RESULTS);
+                } else {
+                    mOnPlaceSelectedListener.onErrorOccurred(ErrorCodes.NETWORK_ISSUE);
                 }
-
-                updateSearchResults(mPlaceDataList);
 
             } catch (JSONException je) {
                 je.printStackTrace();
             }
         } else {
             if (mOnPlaceSelectedListener != null) {
-                mOnPlaceSelectedListener.onErrorOccurred();
+                mOnPlaceSelectedListener.onErrorOccurred(ErrorCodes.NETWORK_ISSUE);
             }
 
         }
@@ -300,10 +316,24 @@ public class PlaceAutoCompleteFragment extends Fragment{
         mOnPlaceSelectedListener = placeSelectedListener;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
+    private void startMyTask(AsyncTask asyncTask, Object params) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        else
+            asyncTask.execute(params);
+    }
+
     public interface IOnPlaceSelectedListener {
         void onPlaceSelected(PlaceData placeData);
 
-        void onErrorOccurred();
+        /***
+         * Called when the API returns with some error.
+         * @param errorCode error code, use this to show a proper message to users.
+         *                  0 - network issue
+         *                  1 - zero results
+         */
+        void onErrorOccurred(int errorCode);
     }
 
     @Override
@@ -314,10 +344,11 @@ public class PlaceAutoCompleteFragment extends Fragment{
             mBlackOutView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_out));
         }
         super.onDestroyView();
-
     }
 
-    private class FindPlace extends AsyncTask<String, Void, JSONObject> {
+    private class FindPlace extends AsyncTask<Object, Void, JSONObject> {
+
+        String params;
 
         @Override
         protected void onPreExecute() {
@@ -325,8 +356,9 @@ public class PlaceAutoCompleteFragment extends Fragment{
             showProgressBar();
         }
 
-        protected JSONObject doInBackground(String... url) {
-            String uri = "http://maps.google.com/maps/api/geocode/json?address=" + url[0];
+        protected JSONObject doInBackground(Object... params) {
+            this.params = params[0].toString().replace("+", " ");
+            String uri = Constants.URL + params[0];
             HttpGet httpGet = new HttpGet(uri);
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
@@ -348,21 +380,16 @@ public class PlaceAutoCompleteFragment extends Fragment{
             JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(stringBuilder.toString());
-
-                if (jsonObject.getString("status").equalsIgnoreCase("ok")) {
-                    return jsonObject;
-                } else {
-                    return null;
-                }
-
+                return jsonObject;
             } catch (JSONException e) {
-
                 return null;
             }
         }
 
         protected void onPostExecute(JSONObject result) {
-            hideProgressBar();
+            if (params.equalsIgnoreCase(mSearchBox.getText().toString().trim())) {
+                hideProgressBar();
+            }
             parseResultsJson(result);
         }
     }

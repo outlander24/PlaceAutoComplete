@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.ErrorCodes;
 import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceAutoCompleteFragment;
 import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceData;
 
@@ -36,8 +38,16 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onErrorOccurred() {
+                public void onErrorOccurred(int errorCode) {
+                    switch (errorCode) {
+                        case ErrorCodes.NETWORK_ISSUE:
+                            Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                            break;
 
+                        case ErrorCodes.ZERO_RESULTS:
+                            Toast.makeText(getApplicationContext(), "No results found!", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                 }
             });
             addFragment(placeAutoCompleteFragment);
