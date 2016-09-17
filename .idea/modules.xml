@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PlaceAutoComplete/PlaceAutoComplete.iml" filepath="$PROJECT_DIR$/PlaceAutoComplete/PlaceAutoComplete.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PlaceAutoCompleteSample.iml" filepath="$PROJECT_DIR$/PlaceAutoCompleteSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PlaceAutoComplete.iml" filepath="$PROJECT_DIR$/PlaceAutoComplete.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PlaceAutoComplete/PlaceAutoComplete-PlaceAutoComplete.iml" filepath="$PROJECT_DIR$/PlaceAutoComplete/PlaceAutoComplete-PlaceAutoComplete.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

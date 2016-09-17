@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:babychakra="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceAutoCompleteViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_search_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_searchbox_container"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_search"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_centerVertical="true"
+                />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_toRightOf="@+id/iv_search_icon"
+                android:layout_toEndOf="@+id/iv_search_icon"
+                android:layout_toLeftOf="@+id/iv_clear_icon"
+                android:layout_toStartOf="@+id/iv_clear_icon"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="search here"
+                android:padding="4dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_clear_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/cross_white_icon"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:onClick="@{viewModel.onClearClickListener}"
+                />
+
+            <ProgressBar
+                android:id="@+id/pb_autocomplete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/v_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark"/>
+
+        <LinearLayout
+            android:id="@+id/llUseMyLocationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="left|center_vertical"
+            android:gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:background="@color/bg_color"
+            android:onClick="@{viewModel.onFetchCurrentLocationClickListener}"
+            >
+
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_my_location_white"
+                android:onClick="@{viewModel.onFetchCurrentLocationClickListener}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:text="Use my location"
+                android:textColor="@android:color/black"
+                android:onClick="@{viewModel.onFetchCurrentLocationClickListener}"
+                />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+</layout>
