@@ -95,7 +95,8 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
             @Override
             public void onClick(View view) {
                 if (isLocationServicesAvailable(mContext)) {
-                    PendingResult<PlaceLikelihoodBuffer> currentPlaceResult = Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
+                    PendingResult<PlaceLikelihoodBuffer> currentPlaceResult =
+                            Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
                     currentPlaceResult.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
                         @Override
                         public void onResult(@NonNull PlaceLikelihoodBuffer placeLikelihoods) {
@@ -296,9 +297,10 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
 
         boolean coarsePermissionCheck = (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
         boolean finePermissionCheck = (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-        if (!coarsePermissionCheck && !finePermissionCheck) {
+        if (coarsePermissionCheck && finePermissionCheck) {
+        } else {
             ActivityCompat.requestPermissions(mActivity,
-                    new String[]{Manifest.permission.CALL_PHONE},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_REQUEST_LOCATION);
         }
 

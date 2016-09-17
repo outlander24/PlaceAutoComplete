@@ -35,6 +35,7 @@ public class CustomPlaceAutoCompleteFragment extends Fragment implements GoogleA
     private GoogleApiClient mGoogleApiClient;
     private PlaceAutoCompleteResultsAdapter mAdapter;
     private IOnPlaceSelectedListener mListener;
+    private int currentLocationVisibility = View.VISIBLE;
 
     public static CustomPlaceAutoCompleteFragment getInstance(IOnPlaceSelectedListener listener) {
         CustomPlaceAutoCompleteFragment fragment = new CustomPlaceAutoCompleteFragment();
@@ -43,7 +44,7 @@ public class CustomPlaceAutoCompleteFragment extends Fragment implements GoogleA
     }
 
     public void setUseMyLocationVisibility(int visibility) {
-        mBinding.llUseMyLocationContainer.setVisibility(visibility);
+        currentLocationVisibility = visibility;
     }
 
     public void setPlaceSelectedListener(IOnPlaceSelectedListener listener) {
@@ -98,6 +99,7 @@ public class CustomPlaceAutoCompleteFragment extends Fragment implements GoogleA
         });
         mViewModel = new PlaceAutoCompleteViewModel(getActivity(), getContext(), mBinding, mGoogleApiClient, mAdapter, mListener);
         mBinding.setViewModel(mViewModel);
+        mBinding.llUseMyLocationContainer.setVisibility(currentLocationVisibility);
     }
 
     @Override
