@@ -1,7 +1,6 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.view;
 
 import android.databinding.DataBindingUtil;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +15,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.adapters.PlaceAutoCompleteResultsAdapter;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants.ErrorCodes;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.viewModels.PlaceAutoCompleteViewModel;
 import com.library.outlander.placeautocomplete.R;
 import com.library.outlander.placeautocomplete.databinding.FragmentPlaceAutocompleteBinding;
 
@@ -124,6 +125,7 @@ public class CustomPlaceAutoCompleteFragment extends Fragment implements GoogleA
 
     public interface IOnPlaceSelectedListener {
         void onPlaceSelected(Place place);
+
         void onErrorOccured(int errorCode);
     }
 }

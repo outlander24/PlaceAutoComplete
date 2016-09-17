@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants;
 
 /**
  * Created by ashish on 17/02/16.

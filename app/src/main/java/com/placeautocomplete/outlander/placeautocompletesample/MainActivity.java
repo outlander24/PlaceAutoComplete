@@ -10,10 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
-import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.CustomPlaceAutoCompleteFragment;
-import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.ErrorCodes;
-import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceAutoCompleteFragment;
-import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceData;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.view.CustomPlaceAutoCompleteFragment;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants.ErrorCodes;
 
 public class MainActivity extends AppCompatActivity {
 

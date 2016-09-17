@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:babychakra="http://schemas.android.com/apk/res-auto">
+    >
 
     <data>
         <variable
             name="viewModel"
-            type="com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.PlaceAutoCompleteViewModel" />
+            type="com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.viewModels.PlaceAutoCompleteViewModel" />
     </data>
 
     <LinearLayout

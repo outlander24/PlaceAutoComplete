@@ -1,8 +1,10 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.deprecated;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
+
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.deprecated.PlaceData;
 
 /**
  * Created by ashish on 04/02/16.

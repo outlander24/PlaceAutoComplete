@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.deprecated;
 
 /**
  * Created by ashish on 04/02/16.

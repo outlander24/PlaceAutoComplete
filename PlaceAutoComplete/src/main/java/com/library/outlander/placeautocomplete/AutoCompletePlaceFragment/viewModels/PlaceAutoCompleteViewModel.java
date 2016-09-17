@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.viewModels;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.location.Location;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,6 +31,9 @@ import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.gson.annotations.SerializedName;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.adapters.PlaceAutoCompleteResultsAdapter;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants.ErrorCodes;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.view.CustomPlaceAutoCompleteFragment;
 import com.library.outlander.placeautocomplete.R;
 import com.library.outlander.placeautocomplete.databinding.FragmentPlaceAutocompleteBinding;
 
@@ -142,7 +144,7 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
     private void getPredictions() {
         if (mGoogleApiClient != null) {
             Log.i(TAG, "Executing autocomplete query for: " + mPreviousQuery);
-            mBinding.pbAutocomplete.setVisibility(View.VISIBLE);
+            showProgressBar();
             final PendingResult<AutocompletePredictionBuffer> results =
                     Places.GeoDataApi
                             .getAutocompletePredictions(mGoogleApiClient, mPreviousQuery,
@@ -174,7 +176,7 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
                     autocompletePredictions.release();
                     mAdapter.setResults(resultList);
                     mCachedResults.put(mPreviousQuery, resultList);
-                    mBinding.pbAutocomplete.setVisibility(View.GONE);
+                    hideProgressBar();
                     if (resultList.size() == 0) {
                         mListener.onErrorOccured(ErrorCodes.ZERO_RESULTS);
                     }
@@ -257,12 +259,24 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
         mGoogleApiClient = null;
     }
 
+    private void showProgressBar() {
+        mBinding.pbAutocomplete.setVisibility(View.VISIBLE);
+        mBinding.ivClearIcon.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar() {
+        mBinding.pbAutocomplete.setVisibility(View.GONE);
+        if (!mBinding.etSearch.getText().toString().trim().isEmpty()) {
+            mBinding.ivClearIcon.setVisibility(View.VISIBLE);
+        }
+    }
+
     public boolean isLocationServicesAvailable(Context context) {
         int locationMode = 0;
         String locationProviders;
         boolean isAvailable;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
             } catch (Settings.SettingNotFoundException e) {

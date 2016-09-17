@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.viewModels.PlaceAutoCompleteViewModel;
 import com.library.outlander.placeautocomplete.R;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class PlaceAutoCompleteResultsAdapter extends RecyclerView.Adapter<PlaceA
     private List<PlaceAutoCompleteViewModel.PlaceAutocomplete> mResults;
     private OnResultItemClickListener mActivityListener;
 
-    public PlaceAutoCompleteResultsAdapter (List<PlaceAutoCompleteViewModel.PlaceAutocomplete> results, OnResultItemClickListener listener) {
+    public PlaceAutoCompleteResultsAdapter(List<PlaceAutoCompleteViewModel.PlaceAutocomplete> results, OnResultItemClickListener listener) {
         if (mResults == null) {
             mResults = new ArrayList<>();
         }
@@ -76,8 +77,8 @@ public class PlaceAutoCompleteResultsAdapter extends RecyclerView.Adapter<PlaceA
         public MyViewHolder(View itemView) {
             super(itemView);
             mMainContainer = (RelativeLayout) itemView.findViewById(R.id.result_item_main_container);
-            mTvTitle = (TextView)itemView.findViewById(R.id.tv_title);
-            mTvDescription = (TextView)itemView.findViewById(R.id.tv_description);
+            mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            mTvDescription = (TextView) itemView.findViewById(R.id.tv_description);
         }
     }
 

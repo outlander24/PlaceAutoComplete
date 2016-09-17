@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.deprecated;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment;
+package com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.deprecated;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants.Constants;
+import com.library.outlander.placeautocomplete.AutoCompletePlaceFragment.constants.ErrorCodes;
 import com.library.outlander.placeautocomplete.R;
 
 import org.apache.http.HttpEntity;
