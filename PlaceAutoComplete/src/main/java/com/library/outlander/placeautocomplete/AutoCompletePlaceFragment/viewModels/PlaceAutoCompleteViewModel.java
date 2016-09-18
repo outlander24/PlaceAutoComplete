@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -95,11 +96,13 @@ public class PlaceAutoCompleteViewModel extends BaseObservable implements TextWa
             @Override
             public void onClick(View view) {
                 if (isLocationServicesAvailable(mContext)) {
+                    mBinding.ivLocation.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.rotate_clockwise));
                     PendingResult<PlaceLikelihoodBuffer> currentPlaceResult =
                             Places.PlaceDetectionApi.getCurrentPlace(mGoogleApiClient, null);
                     currentPlaceResult.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
                         @Override
                         public void onResult(@NonNull PlaceLikelihoodBuffer placeLikelihoods) {
+                            mBinding.ivLocation.getAnimation().cancel();
                             if (placeLikelihoods.getStatus().isSuccess()) {
                                 mListener.onPlaceSelected(placeLikelihoods.get(0).getPlace());
                             } else {
